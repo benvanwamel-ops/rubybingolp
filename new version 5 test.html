@@ -181,6 +181,20 @@
       margin: auto;
     }
 
+	/* Remove default body margin and kill the footer when embedded */
+html, body { margin: 0; padding: 0; }
+
+body.is-embedded footer { 
+  display: none;            /* fixed footer often creates phantom space */
+}
+
+/* If you previously set hard heights, relax them when embedded */
+body.is-embedded .kick-container { height: auto; }
+body.is-embedded .livestream-embed iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+	
     .tabs {
       width: 180px;
       flex-shrink: 0;
@@ -908,6 +922,19 @@
 </head>
 
 <body>
+
+	<script>
+// If we're inside an iframe, add a class to the <body>
+(function () {
+  if (window.self !== window.top) {
+    document.addEventListener('DOMContentLoaded', function () {
+      document.body.classList.add('is-embedded');
+    });
+  }
+})();
+</script>
+
+	
     <header>
         <nav class="navbar">
         <div class="logo">
@@ -1578,29 +1605,40 @@
   </div>
 </div>
 
-	<script>
+<script>
 (function () {
-  function sendHeight() {
-    // total page height inside the iframe
+  function pageHeight() {
+    // Most reliable mix across browsers
+    var d = document.documentElement;
+    var b = document.body;
+    // Remove default margins from height calc
     var h = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight
+      b.scrollHeight, d.scrollHeight,
+      b.offsetHeight, d.offsetHeight,
+      b.clientHeight, d.clientHeight
     );
-    parent.postMessage({ type: 'ruby-embed-height', height: h }, '*');
+    return h;
   }
 
-  // send on load + resize
+  function sendHeight() {
+    var h = pageHeight();
+    // Add a 1px buffer to avoid scrollbars flickering
+    parent.postMessage({ type: 'ruby-embed-height', height: h + 1 }, '*');
+  }
+
+  // Send on load, resize, and DOM changes
   window.addEventListener('load', sendHeight);
   window.addEventListener('resize', sendHeight);
 
-  // also watch DOM changes (content expanding/collapsing)
-  new MutationObserver(sendHeight).observe(document.body, {
-    attributes: true,
-    childList: true,
-    subtree: true
+  // Observe changes to the whole document
+  var mo = new MutationObserver(function () { 
+    // micro-debounce to batch multiple mutations
+    clearTimeout(window.__rubyEmbedTO);
+    window.__rubyEmbedTO = setTimeout(sendHeight, 50);
   });
+  mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
 
-  // send once quickly in case fonts load later and change height
+  // Fonts/images settling
   setTimeout(sendHeight, 200);
 })();
 </script>
@@ -2198,5 +2236,6 @@
 </footer>
 
 </html>
+
 
 
