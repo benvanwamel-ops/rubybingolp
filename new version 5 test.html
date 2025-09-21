@@ -58,7 +58,6 @@
     }
 
     .kick-container {
-	
       display: flex;
       justify-content: center;
       align-items: center;
@@ -67,7 +66,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       margin: 0;
       z-index: 100;
-      height: 30vh;
+      height: 40vh;
       width: 100%;
       box-sizing: border-box;
       padding: 8px;
@@ -181,20 +180,6 @@
       margin: auto;
     }
 
-	/* Remove default body margin and kill the footer when embedded */
-html, body { margin: 0; padding: 0; }
-
-body.is-embedded footer { 
-  display: none;            /* fixed footer often creates phantom space */
-}
-
-/* If you previously set hard heights, relax them when embedded */
-body.is-embedded .kick-container { height: auto; }
-body.is-embedded .livestream-embed iframe {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-	
     .tabs {
       width: 180px;
       flex-shrink: 0;
@@ -922,19 +907,6 @@ body.is-embedded .livestream-embed iframe {
 </head>
 
 <body>
-
-	<script>
-// If we're inside an iframe, add a class to the <body>
-(function () {
-  if (window.self !== window.top) {
-    document.addEventListener('DOMContentLoaded', function () {
-      document.body.classList.add('is-embedded');
-    });
-  }
-})();
-</script>
-
-	
     <header>
         <nav class="navbar">
         <div class="logo">
@@ -1605,44 +1577,6 @@ body.is-embedded .livestream-embed iframe {
   </div>
 </div>
 
-<script>
-(function () {
-  function pageHeight() {
-    // Most reliable mix across browsers
-    var d = document.documentElement;
-    var b = document.body;
-    // Remove default margins from height calc
-    var h = Math.max(
-      b.scrollHeight, d.scrollHeight,
-      b.offsetHeight, d.offsetHeight,
-      b.clientHeight, d.clientHeight
-    );
-    return h;
-  }
-
-  function sendHeight() {
-    var h = pageHeight();
-    // Add a 1px buffer to avoid scrollbars flickering
-    parent.postMessage({ type: 'ruby-embed-height', height: h + 1 }, '*');
-  }
-
-  // Send on load, resize, and DOM changes
-  window.addEventListener('load', sendHeight);
-  window.addEventListener('resize', sendHeight);
-
-  // Observe changes to the whole document
-  var mo = new MutationObserver(function () { 
-    // micro-debounce to batch multiple mutations
-    clearTimeout(window.__rubyEmbedTO);
-    window.__rubyEmbedTO = setTimeout(sendHeight, 50);
-  });
-  mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
-
-  // Fonts/images settling
-  setTimeout(sendHeight, 200);
-})();
-</script>
-
 
     <script>
       const baseUrl = 'https://ruby-bingo-production.up.railway.app'
@@ -2234,8 +2168,4 @@ body.is-embedded .livestream-embed iframe {
     <p><b>NO PURCHASE NECESSARY.</b> Purchase void where prohibited by law. 21+. Ruby Sweeps is a trade mark of Ruby Play Network Limited. All rights reserved. Copyright Ruby Play Network 2025. General terms and conditions and sweepstakes rules apply.</p>
   </div>
 </footer>
-
 </html>
-
-
-
