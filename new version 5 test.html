@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Ruby Bingo!</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <link href="https://cdn.prod.website-files.com/64519aca7d6b9dc7f2f78feb/css/hostedterms-com.webflow.shared.afaf1e53f.min.css" rel="stylesheet" type="text/css"/>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    WebFont.load({  
+      google: {    
+        families: ["Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic"]  
+      }
+    });
+  </script>
+  <script type="text/javascript">
+    !function(o,c){
+      var n=c.documentElement,t=" w-mod-";
+      n.className+=t+"js",
+      ("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")
+    }(window,document);
+  </script>
+  <link href="https://cdn.prod.website-files.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+  <link href="https://cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon"/>
+    
+<style>
+    :root {
+      --brand: #5170FF; /* #5170FF;*/
+      --ink: #0b1020;
+      --muted: #6b7280;
+      --surface: #ffffff;
+      --line: #e5e7eb;
+      --radius-card: 10px;
+      --radius-cell: 10px;
+      --shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      background: transparent;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    body::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: #737373;
+    }
+
+    .kick-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin: 0;
+      z-index: 100;
+      height: 40vh;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px;
+      gap: 12px;
+    }
+
+    .livestream-container {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* max-width: 70%; */
+    }
+
+    
+
+/* sit a button panel beside the video */
+.kick-container {
+  align-items: stretch;         /* make siblings equal height */
+  gap: 12px;                    /* you already have this */
+}
+
+/* the new right-hand column */
+.cta-container {
+  width: 220px;                 /* tidy, consistent width */
+  flex: 0 0 220px;              /* don’t grow; don’t shrink below 280 */
+  display: flex;
+  align-items: center;          /* vertically center the card next to the video */
+}
+
+.cta-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  padding: 16px;
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.cta-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.cta-sub {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* button styling synced with your brand token */
+.cta-btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 50px;
+  background: #5170ff;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  transition: transform .12s ease, filter .12s ease;
+}
+.cta-btn:hover { filter: brightness(.95); transform: translateY(-1px); }
+.cta-btn:active { transform: translateY(0); }
+
+/* make it stack on small screens */
+@media (max-width: 768px) {
+  .kick-container {
+    flex-direction: column;     /* video on top, button below */
+    align-items: center;        /* center the column */
+  }
+  .cta-container {
+    width: 100%;
+    flex: 0 0 auto;
+    max-width: 420px;           /* keep it tidy */
+  }
+}
+
+    
+    .livestream-embed {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .livestream-embed iframe {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .hero {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      /* margin: 8px 0 0 0; */
+      max-width: 70%;
+      margin: auto;
+    }
+
+    .tabs {
+      width: 180px;
+      flex-shrink: 0;
+      padding: 0px /*10px*/;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      height: fit-content;
+      align-self: center;
+      /* margin: 10px auto !important; */
+      padding: 8px;
+      /* border: 1px solid var(--line); */
+      border-radius: 50px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+    }
+
+    
+    .tabs button, .game-selection select, .clear-cards button, #yesBtn, #noBtn, #realMoneyBtn, #funBtn,#redirectBtn,#redirectBtn2 {
+      margin: 0;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+      height:36px;
+    }
+
+    .tabs button, #noBtn, #redirectBtn2 {
+      background-color: #4b92d4;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-radius: 50px;
+    }
+
+    .tabs button,#yesBtn, #realMoneyBtn, #funBtn,#redirectBtn, #noBtn, #redirectBtn2 {
+      background-color: #5170ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-radius: 50px;
+    }
+
+    #yesBtn, #noBtn, #realMoneyBtn, #funBtn,#redirectBtn,#redirectBtn2 {
+        margin-top:5px;
+        margin-bottom:5px;
+    }
+
+    
+    .tabs button:hover {
+      background-color: #5170ff; /*#4155d1;*/
+    }
+
+    .clear-cards button {
+        background-color: #f0f0f0;
+    }
+
+    .clear-cards button:hover {
+        background-color: #5170ff;
+        color: #ffffff;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .play_button.inactive, .chat_button.inactive {
+        background-color: #787878;
+        color: #d8d8d8;
+    }
+    
+    .container, .tab-container, .play-container, .chat-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 3px 0px 3px;
+      position: relative;
+      flex: 1;
+      height: 100%;
+    }
+
+    .tab-container {
+        max-width: 70%;
+        height: calc(50vh - 30px) !important;
+    }
+
+    .top-bar {
+        width:100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px; /* spacing between top bar and carousel */
+    }
+
+    .game-selection {
+        margin-right: auto;
+    }
+
+    .clear-cards {
+        margin-left: auto;
+    }
+
+    .hidden {
+        display:none;
+    }
+
+    .carousel-wrapper, .chat-wrapper {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.3s ease;
+      touch-action: manipulation;
+    }
+
+    .carousel-outer-wrapper {
+        height: calc(100% - 50px) !important;
+        /* Default to no scroll - will be set dynamically */
+        overflow-x: visible;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        scroll-snap-type: none;
+        scroll-snap-stop: normal;
+        touch-action: pan-x pinch-zoom;
+        will-change: scroll-position;
+    }
+
+    /* Class for when carousel has scrollable cards */
+    .carousel-outer-wrapper.scrollable {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-snap-stop: always;
+    }
+
+    .carousel-wrapper {
+        display: flex;
+        /*min-width: max-content; */
+        justify-content: center;
+      	width: max-content;
+				min-width:100%;
+    }
+
+    /* Static wrapper for non-scrollable content */
+    .carousel-wrapper.static {
+        display: block;
+        min-width: 100%;
+    }
+
+    .carousel-wrapper-msg {
+        display: flex;
+        min-width: 95%; 
+    }
+    .carousel-page, .carousel-chat-page {
+      flex: 0 0 40%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px;
+      box-sizing: border-box;
+      height: 100%;
+    }
+
+    .carousel-page {
+        flex: 0 0 auto;
+        width: 30vh;
+        padding: 4px; 
+        box-sizing: border-box;
+        height: 100%;
+        scroll-snap-align: start;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    /* Specific class for loading/error states */
+    .carousel-page.loading-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: none !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex: 1 !important;
+        overflow-y: auto;
+        text-align: center;
+        height: 80%;
+        scrollbar-width: none; /* Firefox */
+      	-ms-overflow-style: none; /* IE and legacy Edge */
+    }
+    
+    .carousel-page.loading-container::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera, modern Edge */
+    }
+
+    .carousel-chat-page {
+      padding: 0 !important;
+    }
+
+    .carousel-chat-embed {
+      width: 100% !important;
+      max-width: none !important;
+      height: 95% !important;
+      border-radius: 0 !important; 
+      box-shadow: none !important; 
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .carousel-chat-embed iframe {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 6px !important; 
+      border: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: #737373;
+      border-radius: 3px;
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    #content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 0 auto;
+    }
+    
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      justify-items: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .bingo-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center; 
+      gap: 20px;
+    }
+    
+    .bingo-card {
+      display: inline-block;
+    }
+
+    .bingo-header-wrapper {
+      background: var(--game-color, var(--brand));
+      color: white;
+      border-top-left-radius: var(--radius-card);
+      border-top-right-radius: var(--radius-card);
+    }
+
+    .game-header {
+      padding: 6px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .letters-header {
+      padding: 6px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .bingo-table {
+      border-collapse: separate;
+      border-spacing: 4px;
+      margin-top: 0;
+    }
+
+    .bingo-table td {
+      width: 4vh;
+      height: 4vh;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-cell);
+      background: linear-gradient(180deg, #ffffff, #fafbff);
+    }
+
+    .bingo-table td:hover {
+      background-color: #e9ecef;
+      transform: scale(1.02);
+    }
+    
+    .bingo-table td.marked {
+      background: var(--game-color, var(--brand)) !important;
+      color: #fff !important;
+      border-color: var(--game-color, var(--brand)) !important;
+      font-weight: 700;
+    }
+        
+    .bingo-table td.free {
+      background-color: var(--game-color, var(--brand)) !important;
+      border: 2px solid var(--game-color, var(--brand)) !important;
+      color: white !important;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: default;
+    }
+
+    .free-space-img {
+      width: 100%;
+      height: 100%;
+      max-width: 48px;
+      max-height: 48px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .uuid {
+      margin-top: 8px;
+      font-size: 10px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 400;
+    }
+    
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px 0;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100px;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-style: italic;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 3vh;
+      background: #f8f9fa; 
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+      z-index: 999;
+    }
+
+    footer .legal {
+      padding: None;
+      font-size: 8px;
+      text-align: center;
+      color: #666;
+    }
+
+    /* Navbar */
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding: 10px 32px;
+        background-color: #5170ff; 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        margin-bottom:5 /*30px*/;
+    }
+
+    .nav-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.nav-btn {
+  display: inline-block;
+  padding: 12px 16px;
+  margin-left: 30px;
+  border-radius: 50px;
+  background: white; 
+  color: #5170ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background .2s ease;
+}
+
+.nav-btn:hover {
+  background: #0558b6; /* darker hover red */
+  color: white;
+}
+
+
+    .logo a {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+    }
+
+    .logo img {
+        height: auto;
+    }
+
+    .nav-actions {
+        display: flex;
+        gap: 12px;
+    }
+
+    .nav-actions button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-login {
+        background: transparent;
+        color: #007BFF;
+    }
+
+    .btn-play {
+        background: #007BFF;
+        color: white;
+    }
+
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 4px;
+    }
+
+    .hamburger span {
+        width: 25px;
+        height: 3px;
+        background-color: #333;
+        border-radius: 2px;
+    }  
+
+    #logo {
+        height: 40px;
+    }  
+
+    /* mobile */
+
+    @media (max-width: 768px) {
+    .navbar {
+        display:none;
+    }
+
+    .hero {
+      max-width: 100%;
+    }
+
+    .kick-container {
+        flex-shrink: 0;
+        height: 40vh;
+        max-height: 40vh;
+        overflow: visible; 
+    }
+
+    .livestream-container {
+        flex: 1;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+
+    .tab-container {
+        max-width: 100%;
+        height: auto; 
+        min-height: calc(56vh - 30px);
+        max-height: calc(85vh - 30px);
+        overflow-y: auto; 
+    }
+
+    .container {
+        height: auto; 
+        min-height: calc(60vh - 15px);
+        max-height: calc(90vh - 15px); 
+        overflow-y: auto; 
+        padding: 0 5px 25px 5px;
+      }
+
+    .carousel-page {
+        padding: 5px;
+        /*min-width: 250px;
+        max-width: 280px;*/
+        width: 27vh;
+        scroll-snap-align: center;
+        margin-right: 8px;
+      }
+
+    .carousel-page.loading-container {
+        margin-right: 0 !important;
+      }
+
+    .carousel-wrapper {
+        padding: 0 15px; 
+      }
+
+    .carousel-chat-page {
+        padding: 0 !important;
+      }
+
+    .bingo-table td {
+        font-size: 13px;
+        width: 5vh;
+        height: 5vh;
+
+      }
+
+    .free-space-img {
+        max-width: 38px;
+        max-height: 38px;
+      }
+
+    .game-header {
+        font-size: 15px;
+        padding: 4px;
+      }
+
+    .letters-header {
+        font-size: 15px;
+        padding: 4px;
+      }
+
+    .uuid {
+        font-size: 8px;
+        margin-top: 4px;
+      }
+
+    .loading {
+        min-height: 150px;
+        padding: 20px;
+      }
+
+    .legal {
+        font-size: 9px;
+        padding: 4px;
+      }
+    footer {
+        max-height: 5vh;
+        font-size: 6px;
+        line-height: 150%;
+      }
+
+    }
+
+    @media (max-width: 480px) {
+      .kick-container {
+        padding: 4px;
+        height: 40vh;
+        gap: 6px;
+      }
+
+    .container {
+        height: auto; 
+        min-height: 60vh;
+        max-height: 85vh;
+        overflow-y: auto;
+        padding: 0 3px 25px 3px;
+    }
+
+      .bingo-table {
+        border-spacing: 2px;
+      }
+
+      .bingo-table td {
+        font-size: 11px;
+      }
+
+      .free-space-img {
+        max-width: 32px;
+        max-height: 32px;
+      }
+
+      .carousel-page {
+        padding: 3px;
+        /*min-width: 220px;
+        max-width: 250px;*/
+        width: 27vh;
+      }
+
+      .carousel-chat-page {
+        padding: 0 !important;
+      }
+
+      .loading {
+        min-height: 120px;
+        padding: 15px;
+      }
+
+      .legal {
+        font-size: 8px;
+        padding: 3px;
+      }
+      footer {
+        max-height: 5vh;
+        font-size: 6px;
+        line-height: 150%;
+      }
+    }
+
+    /* Modal backdrop */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    /* Modal box */
+    .modal {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      position: relative;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .modal h2 {
+      margin-top: 0;
+    }
+
+    .modal button {
+      /* margin: 10px 5px; */
+      /* padding: 10px 20px; */
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .modal_header {
+        margin-top: 20px;
+        font-size: 18px;
+        line-height: 24px;
+        padding-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .modal_text {
+      margin-top: 20px;
+      font-size: 15px;
+      line-height: 20px;
+      padding-bottom: 5px;
+    }
+
+    #signupEmail {
+      margin-top:10px;
+    }
+    #realMoneyBtn {
+      width: min(250px, calc(100% - 20px));
+      max-width: 250px;
+      margin-bottom: 15px;
+    }
+    #funBtn {
+      width: min(150px, calc(100% - 20px));
+      max-width: 150px;
+      background-color:#787878;
+    }
+
+    /* Close button */
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+  </style>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+        <div class="logo">
+            <a href="/"><img id="logo" src="https://raw.githubusercontent.com/benvanwamel-ops/rubybingologo/main/Ruby_Bingo_Logo.png"/></a>
+        </div>
+         <div class="nav-actions">
+    <a href="https://www.rubysweeps.com" class="nav-btn">
+      What's Ruby Bingo?
+    </a>
+  </div>
+        </nav>
+    </header>
+<section class="hero" aria-label="Live session and sign up">
+    <div class="kick-container">
+      <div class="livestream-container">
+        <div class="livestream-embed w-embed w-iframe">
+          <iframe 
+            src="https://www.youtube.com/embed/anYyMngJgDg" 
+            frameborder="0" 
+            scrolling="no" 
+            allowfullscreen="true">
+          </iframe>
+        </div>
+      </div>
+      <div class="cta-container">
+  <div class="cta-card">
+    <h3 class="cta-title">Play Ruby Bingo</h3>
+    <a class="cta-btn" href="https://play.rubysweeps.com/?utm_source=bingo&utm_medium=embed&utm_campaign=cta"
+       aria-label="Head to Ruby Sweeps">
+      Go to Ruby Sweeps
+    </a>
+  </div>
+</div>
+
+    </div>
+  </section>
+    <div class="tabs">
+      <button class="play_button" id="button_play" onclick="switchTabs('play')">Cards</button>
+      <button class="chat_button inactive" id="button_chat" onclick="switchTabs('chat')">Chat</button>
+    </div>
+
+  
+
+  <div class="w-embed w-script" style="padding-bottom: 30px;">
+    <div class="tab-container">
+        <div class="play-container" id="container_play">
+            <div class="top-bar">
+                <div class="game-selection">    
+                    
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="clear-cards">
+                    <button id="cardClear" class="btn-clear" onclick="clearCells()">Clear Cards</button>
+                </div>
+            </div>
+            <div class="carousel-outer-wrapper scrollable">
+                <div class="carousel-wrapper" id="carouselWrapper">
+            <div class="carousel-page">
+            
+            <div class="bingo-card" style="--game-color: #00BF63">
+              <div class="bingo-header-wrapper">
+                <div class="game-header">Game 1</div>
+                <div class="letters-header">
+                  <span>B</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                  <span>O</span>
+                </div>
+              </div>
+              <table class="bingo-table">
+                  <tbody>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="0" data-col="0">
+                                14
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="0" data-col="1">
+                                29
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="0" data-col="2">
+                                41
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="0" data-col="3">
+                                48
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="0" data-col="4">
+                                73
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="1" data-col="0">
+                                5
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="1" data-col="1">
+                                23
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="1" data-col="2">
+                                39
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="1" data-col="3">
+                                53
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="1" data-col="4">
+                                63
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="2" data-col="0">
+                                2
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="2" data-col="1">
+                                20
+                              </td>
+                          
+                              <td class="free" onclick="toggleCell(this)" data-card="107-084-004" data-row="2" data-col="2">
+                                <img src="https://rpn-app-assets-public.s3.us-east-1.amazonaws.com/rubysweepsmvp/logos/logo_dark.webp" alt="FREE" class="free-space-img">
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="2" data-col="3">
+                                57
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="2" data-col="4">
+                                71
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="3" data-col="0">
+                                8
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="3" data-col="1">
+                                17
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="3" data-col="2">
+                                31
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="3" data-col="3">
+                                54
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="3" data-col="4">
+                                64
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="4" data-col="0">
+                                1
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="4" data-col="1">
+                                16
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="4" data-col="2">
+                                38
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="4" data-col="3">
+                                56
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-004" data-row="4" data-col="4">
+                                72
+                              </td>
+                          
+                        </tr>
+                    
+                  </tbody>
+              </table>
+              <div class="uuid">Card ID: 107-084-004</div>
+            </div>
+        
+            </div>
+        
+            <div class="carousel-page">
+            
+            <div class="bingo-card" style="--game-color: #00BF63">
+              <div class="bingo-header-wrapper">
+                <div class="game-header">Game 1</div>
+                <div class="letters-header">
+                  <span>B</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                  <span>O</span>
+                </div>
+              </div>
+              <table class="bingo-table">
+                  <tbody>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="0" data-col="0">
+                                6
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="0" data-col="1">
+                                20
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="0" data-col="2">
+                                32
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="0" data-col="3">
+                                47
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="0" data-col="4">
+                                62
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="1" data-col="0">
+                                10
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="1" data-col="1">
+                                19
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="1" data-col="2">
+                                44
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="1" data-col="3">
+                                53
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="1" data-col="4">
+                                64
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="2" data-col="0">
+                                12
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="2" data-col="1">
+                                28
+                              </td>
+                          
+                              <td class="free" onclick="toggleCell(this)" data-card="107-084-002" data-row="2" data-col="2">
+                                <img src="https://rpn-app-assets-public.s3.us-east-1.amazonaws.com/rubysweepsmvp/logos/logo_dark.webp" alt="FREE" class="free-space-img">
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="2" data-col="3">
+                                52
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="2" data-col="4">
+                                72
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="3" data-col="0">
+                                5
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="3" data-col="1">
+                                18
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="3" data-col="2">
+                                39
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="3" data-col="3">
+                                58
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="3" data-col="4">
+                                74
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="4" data-col="0">
+                                11
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="4" data-col="1">
+                                30
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="4" data-col="2">
+                                45
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="4" data-col="3">
+                                55
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-002" data-row="4" data-col="4">
+                                75
+                              </td>
+                          
+                        </tr>
+                    
+                  </tbody>
+              </table>
+              <div class="uuid">Card ID: 107-084-002</div>
+            </div>
+        
+            </div>
+        
+            <div class="carousel-page">
+            
+            <div class="bingo-card" style="--game-color: #00BF63">
+              <div class="bingo-header-wrapper">
+                <div class="game-header">Game 1</div>
+                <div class="letters-header">
+                  <span>B</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                  <span>O</span>
+                </div>
+              </div>
+              <table class="bingo-table">
+                  <tbody>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="0" data-col="0">
+                                2
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="0" data-col="1">
+                                29
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="0" data-col="2">
+                                33
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="0" data-col="3">
+                                53
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="0" data-col="4">
+                                68
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="1" data-col="0">
+                                10
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="1" data-col="1">
+                                25
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="1" data-col="2">
+                                37
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="1" data-col="3">
+                                49
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="1" data-col="4">
+                                72
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="2" data-col="0">
+                                3
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="2" data-col="1">
+                                28
+                              </td>
+                          
+                              <td class="free" onclick="toggleCell(this)" data-card="107-084-001" data-row="2" data-col="2">
+                                <img src="https://rpn-app-assets-public.s3.us-east-1.amazonaws.com/rubysweepsmvp/logos/logo_dark.webp" alt="FREE" class="free-space-img">
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="2" data-col="3">
+                                47
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="2" data-col="4">
+                                75
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="3" data-col="0">
+                                14
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="3" data-col="1">
+                                23
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="3" data-col="2">
+                                39
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="3" data-col="3">
+                                59
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="3" data-col="4">
+                                63
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="4" data-col="0">
+                                4
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="4" data-col="1">
+                                21
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="4" data-col="2">
+                                36
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="4" data-col="3">
+                                58
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-001" data-row="4" data-col="4">
+                                65
+                              </td>
+                          
+                        </tr>
+                    
+                  </tbody>
+              </table>
+              <div class="uuid">Card ID: 107-084-001</div>
+            </div>
+        
+            </div>
+        
+            <div class="carousel-page">
+            
+            <div class="bingo-card" style="--game-color: #00BF63">
+              <div class="bingo-header-wrapper">
+                <div class="game-header">Game 1</div>
+                <div class="letters-header">
+                  <span>B</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                  <span>O</span>
+                </div>
+              </div>
+              <table class="bingo-table">
+                  <tbody>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="0" data-col="0">
+                                4
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="0" data-col="1">
+                                30
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="0" data-col="2">
+                                42
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="0" data-col="3">
+                                49
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="0" data-col="4">
+                                67
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="1" data-col="0">
+                                2
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="1" data-col="1">
+                                16
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="1" data-col="2">
+                                39
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="1" data-col="3">
+                                59
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="1" data-col="4">
+                                63
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="2" data-col="0">
+                                6
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="2" data-col="1">
+                                24
+                              </td>
+                          
+                              <td class="free" onclick="toggleCell(this)" data-card="107-084-003" data-row="2" data-col="2">
+                                <img src="https://rpn-app-assets-public.s3.us-east-1.amazonaws.com/rubysweepsmvp/logos/logo_dark.webp" alt="FREE" class="free-space-img">
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="2" data-col="3">
+                                51
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="2" data-col="4">
+                                71
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="3" data-col="0">
+                                1
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="3" data-col="1">
+                                18
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="3" data-col="2">
+                                35
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="3" data-col="3">
+                                57
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="3" data-col="4">
+                                65
+                              </td>
+                          
+                        </tr>
+                    
+                        <tr>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="4" data-col="0">
+                                12
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="4" data-col="1">
+                                25
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="4" data-col="2">
+                                45
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="4" data-col="3">
+                                50
+                              </td>
+                          
+                              <td class="" onclick="toggleCell(this)" data-card="107-084-003" data-row="4" data-col="4">
+                                68
+                              </td>
+                          
+                        </tr>
+                    
+                  </tbody>
+              </table>
+              <div class="uuid">Card ID: 107-084-003</div>
+            </div>
+        
+            </div>
+        </div>
+            </div>
+        </div>
+        <div class="chat-container hidden" id="container_chat">
+            <div class="chat-wrapper" id="chatWrapper">
+                <!-- Pages will be added dynamically -->
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="close-btn" id="closeModal">&times;</button>
+    
+    <div id="firstPrompt">
+      <div class="modal_header">Do you have a Ruby Sweeps account?</div>
+      <button id="yesBtn">Yes</button>
+      <br>
+      <button id="noBtn">No</button>
+    </div>
+
+    <div id="redirectPrompt" class="hidden">
+      <div class="modal_text"><b>Great!</b> To enter the next bingo session, please sign up and play at the bingo page on Ruby Sweeps.</div>
+      <button id="redirectBtn">Take me to </b> Ruby Sweeps</button>
+    </div>
+
+    <div id="secondPrompt" class="hidden">
+      <div class="modal_text">Enter your email below to sign up to play in the next session!</div>
+      <input type="email" id="signupEmail" placeholder="Enter your email" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; width: min(250px, calc(100% - 20px)); max-width: 250px; box-sizing: border-box;" />
+      <button id="realMoneyBtn" onclick="sendSignup()">Let's Play Bingo!</button>
+    </div>
+
+    <div id="secondRedirectPrompt" class="hidden">
+      <div class="modal_text" id="signup_response"></div>
+      <!-- <div class="modal_text">Nice! Click the button below to get playing!</div> -->
+      <button id="redirectBtn2">Got it!</button>
+    </div>
+  </div>
+</div>
+
+
+    <script>
+      const baseUrl = 'https://ruby-bingo-production.up.railway.app'
+      let allGamesData = null;
+      let sessionId = null; 
+      let cardStates = {};
+      let currentGameNum = null;
+
+      // Pull user ID from URL with debugging
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString)
+      const userId = urlParams.get('userId');
+
+      // Function to set carousel scrollability
+      function setCarouselScrollable(isScrollable) {
+        const outerWrapper = document.querySelector('.carousel-outer-wrapper');
+        const wrapper = document.getElementById('carouselWrapper');
+        
+        if (isScrollable) {
+          outerWrapper.classList.add('scrollable');
+          wrapper.classList.remove('static');
+        } else {
+          outerWrapper.classList.remove('scrollable');
+          wrapper.classList.add('static');
+        }
+      }
+
+      async function getNextOpenSession() {
+        const controller = new AbortController(); 
+        const timeout = setTimeout(() => controller.abort(), 20000);
+        let sessionId = null; 
+        try {
+          const res = await fetch(`${baseUrl}/sessions/open/next`, {
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          }
+          
+          const nextSession = await res.json(); 
+          const nextSessionId = nextSession[0][0];
+          console.log('Session ID loaded:', nextSessionId);
+          return nextSessionId;
+        } catch (error) {
+          console.error('Failed to fetch session:', error);
+          throw error; // Re-throw so caller knows it failed
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
+
+      async function init() {
+        try {
+          console.log('Initializing...');
+          sessionId = await getNextOpenSession();
+          if (sessionId === null) {
+            console.log('No active session(s) found.');
+          } else {
+            console.log('Initialization complete, sessionId:', sessionId);
+          }
+          return sessionId;
+
+        } catch (err) {
+          console.error("Failed to initialize:", err);
+          showError("Failed to connect to server. Please refresh the page to try again.");
+          throw err; // Re-throw so we know init failed
+        }
+      }
+
+      async function initializeApp() {
+        displayChat();
+        // try {
+        //   // Show loading state with proper centering class
+        //   const carouselWrapper = document.getElementById('carouselWrapper');
+        //   carouselWrapper.innerHTML = `
+        //     <div class="carousel-page loading-container">
+        //       <div class="loading">Connecting to server...</div>
+        //     </div>
+        //   `;
+          
+        //   // Set as static (non-scrollable) for loading state
+        //   setCarouselScrollable(false);
+
+        //   // Wait for initialization
+        //   await init();
+          
+        //   // Check if we have what we need
+        //   if (!userId || !sessionId) {
+        //     console.log('Missing data - userId:', userId, 'sessionId:', sessionId, '. Reverting to home page. ');
+        //     showSpectatorMode();
+        //     return;
+        //   }
+
+        //   // Load games
+        //   await loadAllGames(userId, sessionId);
+          
+        // } catch (error) {
+        //   console.error('App initialization failed:', error);
+        //   showError(`Failed to load: ${error.message}. Please refresh the page.`);
+        // }
+      }
+
+    function switchTabs(el) {
+        const p = document.getElementById('container_play');
+        const c = document.getElementById('container_chat');
+        const pb = document.getElementById('button_play');
+        const cb = document.getElementById('button_chat');
+
+        if(el == 'play') {
+            p.classList.remove('hidden');
+            pb.classList.remove('inactive');
+            c.classList.add('hidden');
+            cb.classList.add('inactive');
+            
+            // Restore card states when switching back to play tab
+            setTimeout(restoreCardStates, 10);
+        }
+        if(el == 'chat') {
+            c.classList.remove('hidden');
+            cb.classList.remove('inactive');
+            p.classList.add('hidden');
+            pb.classList.add('inactive');
+        }
+      }
+
+      function showSpectatorMode() {
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        carouselWrapper.innerHTML = `
+            <div class="carousel-page loading-container">
+            <div style="text-align: center; padding: 15px 20px 30px 20px; width: 100%; max-width: min(650px, calc(100vw - 40px)); margin: 20px auto 0 auto; font-size: 12px; box-sizing: border-box; min-height: 100%; /*overflow-y: auto;*/">
+            		<b style="font-size: 14px;">Welcome to Ruby Bingo Live!</b><br><br>
+                <!-- <input type="email" id="signupEmail" placeholder="Enter your email" style="padding: 8px; border-radius: 6px; border: 1px solid #ccc; width: min(250px, calc(100% - 20px)); max-width: 250px; box-sizing: border-box;" />
+                <button id="signupButton" onclick="sendSignup()" style="padding: 8px 16px; margin-left: 8px; border-radius: 6px; background-color: #d90619; color: white; border: none; cursor: pointer; margin-top: 8px;">
+                Enter to Play
+                </button>
+                <br><br> -->
+                
+                If you're here to play our next session on <b>Sep 16th at 10pm EDT</b>, 
+                <!-- signups have now <b>CLOSED</b>. If you want to sign up for our next session,
+                enter the email address linked to your Ruby Sweeps account above ⬆️. (If you don't have an account you can sign up <a href="https://play.rubysweeps.com/?utm_medium=bingo&utm_source=link&utm_campaign=ruby_bingo">here</a>.)<br>
+                We'll get to work generating your cards, and when the stream starts, they'll appear here.<br><br> -->
+                we're still preparing your cards but don't worry! When the stream starts, they'll appear here.<br><br>
+                Get excited! We're giving away <b>500 Emeralds (SC)</b> during our next session - and the best part is - it's absolutely <b>FREE!</b><br><br>
+                Need help? Email <a href="mailto:support@rubysweeps.com">support@rubysweeps.com</a><br>
+            </div>
+            </div>
+        `;
+        setCarouselScrollable(false);
+      }
+
+      function showAlreadySignedUp() {
+        // const carouselWrapper = document.getElementById('carouselWrapper'); 
+        // carouselWrapper.innerHTML = `
+        //     <div class="carousel-page loading-container">
+        //     <div style="text-align: center; padding: 15px 20px 30px 20px; width: 100%; max-width: min(650px, calc(100vw - 40px)); margin: 20px auto 0 auto; font-size: 12px; box-sizing: border-box; min-height: 100%; /*overflow-y: auto;*/">
+        //         <b>You've already signed up! </b><br>
+        //         If there is an active session, we will load your cards now.. 
+        //     </div>
+        //     </div>
+        // `;
+        const signupResponse = document.getElementById('signup_response'); 
+        signupResponse.innerHTML = `
+            You've already signed up! If you don't already have a Ruby Sweeps account, you'll need to set one up to play for real money. Your cards will then be available on the bingo page in Ruby Sweeps before the start of the next session.
+        `;
+      }
+      function showSignedUp(email) {
+        // const carouselWrapper = document.getElementById('carouselWrapper'); 
+        // carouselWrapper.innerHTML = `
+        //     <div class="carousel-page loading-container">
+        //     <div style="text-align: center; padding: 15px 20px 30px 20px; width: 100%; max-width: min(650px, calc(100vw - 40px)); margin: 20px auto 0 auto; font-size: 12px; box-sizing: border-box; min-height: 100%; /*overflow-y: auto;*/">
+        //         <b>Thanks for signing up! Your cards will be sent out before the session to ${email}!</b><br>
+        //     </div>
+        //     </div>
+        // `;
+        const signupResponse = document.getElementById('signup_response'); 
+        signupResponse.innerHTML = `
+            Nice! Let's get going, you'll need to click the youtube video to start.
+        `;
+      }
+
+      async function loadAllGames(userId, sessionId) {
+        if (!userId || !sessionId) {
+          showError("ERROR: User ID or Session ID are missing. Cannot load games.");
+          return;
+        }
+        
+        try {
+          // Show loading with proper centering
+          document.getElementById("carouselWrapper").innerHTML = `
+            <div class="carousel-page loading-container">
+              <div class="loading">Loading games...</div>
+            </div>
+          `;
+          
+          // Set as static for loading state
+          setCarouselScrollable(false);
+          
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 25000); // Increased timeout
+          
+          const res = await fetch(`${baseUrl}/bingo/${userId}/${sessionId}`, {
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+          
+          clearTimeout(timeoutId);
+          
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+          }
+          
+          const data = await res.json();
+          allGamesData = data;
+          
+          // Populate game select dropdown
+          const gameSelect = document.getElementById("gameSelect");
+          const fragment = document.createDocumentFragment();
+          
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = 'Select a game...';
+          fragment.appendChild(defaultOption);
+          
+          allGamesData.games.forEach(game => {
+            const option = document.createElement('option');
+            option.value = game.game_num;
+            option.textContent = `Game ${game.game_num}`;
+            fragment.appendChild(option);
+          });
+          
+          gameSelect.innerHTML = '';
+          gameSelect.appendChild(fragment);
+          gameSelect.addEventListener('change', loadGame);
+          
+          // Auto-load Game 1 if it exists
+          const game1 = allGamesData.games.find(game => game.game_num === '1');
+          if (game1) {
+            gameSelect.value = '1';
+            displayGame(game1);
+          } else {
+            const carouselWrapper = document.getElementById('carouselWrapper');
+            carouselWrapper.innerHTML = `
+              <div class="carousel-page loading-container">
+                <div class="loading">
+                  <h3>Games Loaded (${allGamesData.gameCount} games, ${allGamesData.totalCards} cards)</h3>
+                  <p>Please select a game from the dropdown above.</p>
+                </div>
+              </div>
+            `;
+            // Keep as static for this message
+            setCarouselScrollable(false);
+          }
+          
+        } catch (error) {
+          console.error('Load games error:', error);
+          if (error.name === 'AbortError') {
+            showError('Request timed out. Please check your connection and try again.');
+          } else {
+            if (!sessionId) {
+                console.log(sessionId);
+                showError('There are currently no Ruby Bingo sessions active. Please check back later!');
+            }
+            else {
+                showError(`Failed to load games. Please contact our Customer Support team at bingo@rubysweeps.com.`);
+            }
+          }
+        }
+      }
+
+      // Load specific game from locally stored data (no API call needed)
+      function loadGame() {
+          const gameNum = document.getElementById("gameSelect").value;
+          if (!allGamesData) {
+              showError("ERROR: Games not loaded yet. Please wait.");
+              return;
+          }
+          if (!gameNum) {
+              showError("ERROR: Please select a game.");
+              return;
+          }
+          
+          const targetGame = allGamesData.games.find(game => game.game_num === String(gameNum));
+          
+          if (!targetGame) {
+              showError(`ERROR: Game ${gameNum} not found.`);
+              return;
+          }
+          
+          displayGame(targetGame);
+      }
+
+         // Submit the signup thingy
+        async function sendSignup() {
+            const email = document.getElementById("signupEmail").value.trim();
+            // const btn = document.getElementById("signupButton");
+            const btn = document.getElementById("realMoneyBtn");
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            try {
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showSignupError("Please enter a valid email address.");
+                    return;
+                }
+
+                const signupRes = await fetch(`${baseUrl}/signups/${encodeURIComponent(email)}`, { method: "POST" });
+                const signupData = await signupRes.json();
+
+                let alreadySignedUp = false;
+                if (signupData.success) {
+                    showSignedUp(email);
+                } else {
+                    showAlreadySignedUp();
+                    alreadySignedUp = true;
+                }
+                secondPrompt.classList.add('hidden');
+                secondRedirectPrompt.classList.remove('hidden');
+
+                // if (alreadySignedUp) {
+                //     const userRes = await fetch(`${baseUrl}/users/${encodeURIComponent(email)}`);
+                //     if (!userRes.ok) throw new Error("Could not fetch user");
+                //         const { user_id } = await userRes.json();
+                //         const userId = user_id;
+                //     if (!userId) {
+                //         showSignupError("We could not find a game for this email address. If you would like to participate please get in touch with us at bingo@rubysweeps.com.");
+                //         return;
+                //     }
+                //     if (!sessionId) {
+                //         showSignupError("There are no active sessions at the moment. Please check back later.");
+                //         return;
+                //     }
+                //     await loadAllGames(userId, sessionId);
+                // }
+            } catch (err) {
+                console.error(err);
+                showSignupError("Signup failed. Please try again later.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign Up';
+            }
+        }
+
+
+      function displayChat() {
+        const chatWrapper = document.getElementById('chatWrapper');
+        // Create chat page with NO padding and full coverage
+        const chatPage = `
+          <div class="carousel-chat-page">
+            <div class="carousel-chat-embed">
+              <iframe src='https://kick.com/popout/rubysweeps/chat'></iframe>
+            </div>
+          </div>
+        `;
+        chatWrapper.innerHTML = chatPage;
+
+      }
+
+      // Display game cards in carousel
+      function displayGame(game) {
+        const gameColor = game.bg_colour || '#007bff';
+        currentGameNum = game.game_num;
+        
+        // Create card pages
+        const cardPages = game.cards.map(card => `
+            <div class="carousel-page">
+            ${createCardHTML(game.game_num, card, gameColor)}
+            </div>
+        `).join('');
+        
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        carouselWrapper.innerHTML = cardPages;
+
+        // Enable horizontal scrolling for multiple cards
+        setCarouselScrollable(game.cards.length > 1);
+
+        const outerWrapper = document.querySelector('.carousel-outer-wrapper');
+        if (outerWrapper) {
+            outerWrapper.scrollLeft = 0;
+        }
+        setTimeout(restoreCardStates, 10);
+      }
+
+
+
+      function createCardHTML(gameNum, card, gameColor) {
+        return `
+            <div class="bingo-card" style="--game-color: ${gameColor}">
+              <div class="bingo-header-wrapper">
+                <div class="game-header">Game ${gameNum}</div>
+                <div class="letters-header">
+                  <span>B</span>
+                  <span>I</span>
+                  <span>N</span>
+                  <span>G</span>
+                  <span>O</span>
+                </div>
+              </div>
+              <table class="bingo-table">
+                  <tbody>
+                    ${card.grid.map((row, rowIndex) => `
+                        <tr>
+                          ${row.map((cell, colIndex) => `
+                              <td class="${cell === 'FREE' ? 'free' : ''}" 
+                                  onclick="toggleCell(this)"
+                                  data-card="${card.uuid}" 
+                                  data-row="${rowIndex}" 
+                                  data-col="${colIndex}">
+                                ${cell === 'FREE' ? '<img src="https://rpn-app-assets-public.s3.us-east-1.amazonaws.com/rubysweepsmvp/logos/logo_dark.webp" alt="FREE" class="free-space-img" />' : cell}
+                              </td>
+                          `).join('')}
+                        </tr>
+                    `).join('')}
+                  </tbody>
+              </table>
+              <div class="uuid">Card ID: ${card.uuid}</div>
+            </div>
+        `;
+      }
+
+      // Add clickability
+      function toggleCell(cell) {
+        if (cell.classList.contains('free')) return; // skip free spaces
+
+        const cardId = cell.dataset.card; 
+        const row = cell.dataset.row; 
+        const col = cell.dataset.col; 
+        const cellKey = `${row}-{col}`;
+
+        // Init card state
+        if (!cardStates[cardId]) {
+            cardStates[cardId] = {}; 
+        }
+
+        // Toggle cell and update state
+        cell.classList.toggle('marked');
+
+        // Store card state
+        if (cell.classList.contains('marked')) {
+            cardStates[cardId][cellKey] = true; 
+        } else {
+            delete cardStates[cardId][cellkey];
+        }
+      }
+
+      // Clear the cells on the current game
+      function clearCells() {
+        const cells = document.querySelectorAll('.bingo-table td:not(.free)');
+        cells.forEach(cell => {
+          if (cell.classList.contains('free')) return; 
+            cell.classList.remove('marked');
+          });
+        
+        const currentCards = document.querySelectorAll('[data-card]');
+        currentCards.forEach(cell => {
+            if (cardStates[cardId]) {
+                cardStates[cardId] = {}; 
+            }
+        });
+      }
+
+      // Restore card states after switching or reloading tabs
+      function restoreCardStates() {
+      const cells = document.querySelectorAll('.bingo-table td[data-card]');
+      cells.forEach(cell => {
+          if (cell.classList.contains('free')) return;  
+            const cardId = cell.dataset.card;
+            const row = cell.dataset.row;
+            const col = cell.dataset.col;
+            const cellKey = `${row}-${col}`;
+            
+            // Restore marked state if it exists
+            if (cardStates[cardId] && cardStates[cardId][cellKey]) {
+                cell.classList.add('marked');
+            }
+        });
+      }
+
+      // Updated showError function
+      function showError(message) {
+        const carouselWrapper = document.getElementById('carouselWrapper');
+        carouselWrapper.innerHTML = `
+          <div class="carousel-page loading-container">
+            <div class="error">${message}</div>
+          </div>
+        `;
+        // Set as static (non-scrollable) for error messages
+        setCarouselScrollable(false);
+      }
+
+      function showSignupError(message) {
+        const signupResponse = document.getElementById('signupResponse');
+        signupResponse.innerHTML = `
+          ${message}
+        `;
+        // Set as static (non-scrollable) for error messages
+        // setCarouselScrollable(false);
+      }
+      
+      // Replace the current initialization code with this:
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM loaded, starting app initialization');
+        initializeApp();
+      });
+
+  // ---- MODAL ELEMENTS
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modal       = document.getElementById('modal');
+
+  // prompts
+  const firstPrompt          = document.getElementById('firstPrompt');
+  const redirectPrompt       = document.getElementById('redirectPrompt');
+  const secondPrompt         = document.getElementById('secondPrompt');
+  const secondRedirectPrompt = document.getElementById('secondRedirectPrompt');
+
+  // buttons
+  const closeModal   = document.getElementById('closeModal');
+  const yesBtn       = document.getElementById('yesBtn');
+  const noBtn        = document.getElementById('noBtn');
+  const realMoneyBtn = document.getElementById('realMoneyBtn');
+  const funBtn       = document.getElementById('funBtn');
+  const redirectBtn  = document.getElementById('redirectBtn');
+  const redirectBtn2 = document.getElementById('redirectBtn2');
+
+  // ---- SAFETY: only wire handlers if elements exist
+  if (closeModal && modalOverlay) {
+    closeModal.addEventListener('click', () => {
+      modalOverlay.style.display = 'none';
+    });
+  }
+
+  // also close if user clicks the dark backdrop
+  if (modalOverlay && modal) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) modalOverlay.style.display = 'none';
+    });
+  }
+
+  // ESC to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay?.style.display !== 'none') {
+      modalOverlay.style.display = 'none';
+    }
+  });
+
+  // flow buttons
+  yesBtn?.addEventListener('click', () => {
+    firstPrompt.classList.add('hidden');
+    redirectPrompt.classList.remove('hidden');
+  });
+
+  redirectBtn?.addEventListener('click', () => {
+    window.location.href = 'https://test.sweeps.wildrubygames.com/bingo';
+  });
+
+  noBtn?.addEventListener('click', () => {
+    firstPrompt.classList.add('hidden');
+    secondPrompt.classList.remove('hidden');
+  });
+
+  realMoneyBtn?.addEventListener('click', () => {
+    // keep your signup logic here if needed
+  });
+
+  redirectBtn2?.addEventListener('click', () => {
+     modalOverlay.style.display = 'none';
+    });
+
+  funBtn?.addEventListener('click', () => {
+    modalOverlay.style.display = 'none';
+  });
+
+  // show modal on load
+  window.addEventListener('load', () => {
+    modalOverlay.style.display = 'flex';
+  });
+</script>
+    
+    </script>
+  </div>
+</body>
+<footer>
+  <div class="legal">
+    <p><b>NO PURCHASE NECESSARY.</b> Purchase void where prohibited by law. 21+. Ruby Sweeps is a trade mark of Ruby Play Network Limited. All rights reserved. Copyright Ruby Play Network 2025. General terms and conditions and sweepstakes rules apply.</p>
+  </div>
+</footer>
+</html>
