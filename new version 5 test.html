@@ -1577,6 +1577,33 @@
   </div>
 </div>
 
+	<script>
+(function () {
+  function sendHeight() {
+    // total page height inside the iframe
+    var h = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight
+    );
+    parent.postMessage({ type: 'ruby-embed-height', height: h }, '*');
+  }
+
+  // send on load + resize
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+
+  // also watch DOM changes (content expanding/collapsing)
+  new MutationObserver(sendHeight).observe(document.body, {
+    attributes: true,
+    childList: true,
+    subtree: true
+  });
+
+  // send once quickly in case fonts load later and change height
+  setTimeout(sendHeight, 200);
+})();
+</script>
+
 
     <script>
       const baseUrl = 'https://ruby-bingo-production.up.railway.app'
@@ -2168,4 +2195,5 @@
     <p><b>NO PURCHASE NECESSARY.</b> Purchase void where prohibited by law. 21+. Ruby Sweeps is a trade mark of Ruby Play Network Limited. All rights reserved. Copyright Ruby Play Network 2025. General terms and conditions and sweepstakes rules apply.</p>
   </div>
 </footer>
+
 </html>
